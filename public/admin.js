@@ -18,7 +18,7 @@ function toast(msg, err) {
 async function api(path, opts = {}) {
   const headers = { "Content-Type": "application/json", ...(opts.headers || {}) };
   if (TOKEN) headers["Authorization"] = "Bearer " + TOKEN;
-  const r = await fetch(API + path, { ...opts, headers });
+  const r = await fetch(API + path, { ...opts, headers, credentials: 'include' });
   if (r.status === 401) { logout(); throw new Error("unauthorized"); }
   const data = await r.json().catch(() => ({}));
   if (!r.ok) throw new Error(data.error || ("HTTP " + r.status));
@@ -34,10 +34,12 @@ $("#loginForm").addEventListener("submit", async (e) => {
     const r = await fetch(API + "/api/admin/login", {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ password: $("#loginPw").value }),
+      credentials: 'include'
     });
     const d = await r.json();
     if (!r.ok) throw new Error(d.error || "no");
-    TOKEN = d.token; localStorage.setItem("pw_token", TOKEN);
+    // server sets a session cookie; keep token for backward compatibility
+    TOKEN = d.token || ""; if (TOKEN) localStorage.setItem("pw_token", TOKEN);
     boot();
   } catch { $("#loginErr").textContent = "Wrong password."; }
 });
@@ -108,7 +110,7 @@ function updatePreview() {
       <p class="mono" style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#177a4c">${esc(p.category)}</p>
       <h3 class="display" style="font-weight:800;font-size:1.05rem;margin:4px 0">${esc(p.title || "Your product title")}</h3>
       <p style="font-style:italic;color:#4b5a51;font-size:.85rem">"${esc(p.verdict || "Your one-line verdict appears here.")}"</p>
-      <p class="mono" style="font-weight:700;font-size:1.2rem;margin-top:8px">$${p.price.toFixed(2)} ${p.was > p.price ? `<s style="color:#93a09a;font-size:.85rem">$${p.was.toFixed(2)}</s>` : ""}</p>
+      <p class="mono" style="font-weight:700;font-size:1.2rem;margin-top:8px">$${p.price.toFixed(2)} ${p.was > p.price ? `<s style="color:#93a09a;font-size:.85rem">$${p.was.toFixed(2)}</s>` : ""}[...]
     </div>`;
 }
 F.forEach((k) => { const el = $("#f_" + k); if (el) el.addEventListener("input", updatePreview); });
@@ -167,7 +169,7 @@ $("#btnFetch").addEventListener("click", async () => {
 });
 
 /* ---------- boot ---------- */
-function esc(v) { return String(v ?? "").replace(/[&<>"']/g, (s) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[s])); }
+function esc(v) { return String(v ?? "").replace(/[&<>\"']/g, (s) => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[s])); }
 function markSaved() {
   const t = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
   $("#tkSave").textContent = t; $("#tkSave2").textContent = t;
