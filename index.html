@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PickWise — Tested Picks & Verified Deals</title>
+<meta name="description" content="Lab-tested product picks with verified deals. Compare top-rated gear and let the Wise advisor find your perfect buy." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Public+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: { colors: {
+  paper:"#f3f5ef", card:"#ffffff", ink:"#16211a", inkSoft:"#4b5a51", green:"#177a4c",
+  greenD:"#0e5a36", hot:"#ff4d24", amber:"#ffc531", line:"#d9ded2"
+}, fontFamily: { display:["Bricolage Grotesque","sans-serif"], body:["Public Sans","sans-serif"], mono:["Space Mono","monospace"] } } } }
+</script>
+<style>
+  body{background:#f3f5ef;background-image:radial-gradient(rgba(22,33,26,.07) 1px,transparent 1px);background-size:22px 22px}
+  .shadow-hard{box-shadow:6px 6px 0 #16211a}.shadow-hard-sm{box-shadow:4px 4px 0 #16211a}
+  .ring-ink{border:2px solid #16211a}
+  .ticker{overflow:hidden;background:#16211a;border-bottom:2px solid #16211a}
+  .ticker-track{display:flex;width:max-content;animation:tick 30s linear infinite}
+  .ticker:hover .ticker-track{animation-play-state:paused}
+  .ticker span{font:700 .72rem "Space Mono",monospace;letter-spacing:.1em;text-transform:uppercase;padding:9px 16px;white-space:nowrap;color:#f3f5ef}
+  .ticker i{color:#ffc531;font-style:normal}
+  @keyframes tick{to{transform:translateX(-50%)}}
+  .btn{display:inline-flex;align-items:center;gap:8px;border:2px solid #16211a;border-radius:12px;padding:12px 18px;font:700 .92rem "Public Sans",sans-serif;cursor:pointer;box-shadow:4px 4px 0 #16211a;transition:transform .12s,box-shadow .12s;text-decoration:none}
+  .btn:active{transform:translate(4px,4px);box-shadow:0 0 0 #16211a}
+  .btn-go{background:#177a4c;color:#fff}.btn-amber{background:#ffc531;color:#16211a}
+  .light{width:9px;height:9px;border-radius:50%;display:inline-block;background:#5ad48f;animation:beat 1.6s infinite}
+  @keyframes beat{0%{box-shadow:0 0 0 0 rgba(90,212,143,.5)}70%{box-shadow:0 0 0 7px rgba(90,212,143,0)}100%{box-shadow:0 0 0 0 rgba(90,212,143,0)}}
+  .card{opacity:0;transform:translateY(22px);transition:opacity .5s ease,transform .45s cubic-bezier(.22,1,.36,1)}
+  .card.in{opacity:1;transform:none}
+  .card:hover{transform:translate(-3px,-3px)}
+  .card:hover img{transform:scale(1.07)}
+  .skel{background:linear-gradient(90deg,#e3e7dd 25%,#eef1e9 37%,#e3e7dd 63%);background-size:400% 100%;animation:sh 1.3s infinite;border-radius:10px}
+  @keyframes sh{to{background-position:0 0}}
+  .msg{max-width:88%;padding:11px 14px;border:1.5px solid #16211a;border-radius:12px;font-size:.92rem;animation:pop .3s ease}
+  @keyframes pop{from{opacity:0;transform:translateY(8px)}}
+  .msg.user{align-self:flex-end;background:#16211a;color:#f3f5ef}
+  .msg.ai{align-self:flex-start;background:#fff}
+  .typing i{width:7px;height:7px;border-radius:50%;background:#177a4c;display:inline-block;animation:blink 1s infinite}
+  .typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+  @keyframes blink{50%{opacity:.2;transform:translateY(-4px)}}
+  .chip{font:600 .84rem "Public Sans",sans-serif;padding:8px 15px;border:1.5px solid #16211a;background:#fff;border-radius:999px;cursor:pointer}
+  .chip.on{background:#16211a;color:#f3f5ef}
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .55s ease,transform .55s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(max-width:680px){.navlinks,.headcta{display:none}}
+</style>
+</head>
+<body class="font-body text-ink">
+
+<!-- TICKER -->
+<div class="ticker"><div class="ticker-track">
+  <div class="flex"><span>⚡ Catalog synced live from the PickWise console</span><i>◆</i><span id="tk1">loading picks…</span><i>◆</i><span>Every link verified · FTC-compliant</span><i>◆</i><span>New picks drop weekly</span><i>◆</i></div>
+  <div class="flex"><span>⚡ Catalog synced live from the PickWise console</span><i>◆</i><span id="tk2">loading picks…</span><i>◆</i><span>Every link verified · FTC-compliant</span><i>◆</i><span>New picks drop weekly</span><i>◆</i></div>
+</div></div>
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-paper border-b-2 border-ink">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+    <a href="index.html" class="flex items-center gap-2 font-display font-extrabold text-xl no-underline text-ink"><span class="grid place-items-center w-7 h-7 bg-hot text-white ring-ink rounded-lg mono text-xs -rotate-6">PW</span><span>PICK<em class="not-italic text-green">WISE</em></span></a>
+    <nav class="navlinks flex gap-6 font-semibold text-sm"><a href="#picks" class="text-ink no-underline">Picks</a><a href="#ai" class="text-ink no-underline">Wise Advisor</a><a href="review.html" class="text-ink no-underline">Reviews</a></nav>
+    <a href="#ai" class="btn btn-go headcta !py-2 !px-3 text-sm">Ask Wise →</a>
+  </div>
+</header>
+
+<main>
+  <!-- MASTHEAD: opens on the live sync status, not a generic hero -->
+  <section class="max-w-6xl mx-auto px-4 pt-12 pb-8 grid lg:grid-cols-[1.1fr_.9fr] gap-10 items-center">
+    <div>
+      <p class="mono text-xs tracking-[.18em] uppercase text-green flex items-center gap-2"><span class="w-6 h-[2px] bg-hot inline-block"></span><span class="light mr-1"></span> LIVE CATALOG · <span id="liveCount">—</span> VERIFIED PICKS</p>
+      <h1 class="font-display font-extrabold tracking-tight leading-[1.02] my-4" style="font-size:clamp(2.4rem,5vw,4rem)">We test the gear.<br>You keep the <span class="bg-amber px-1">cash</span>.</h1>
+      <p class="text-inkSoft max-w-md text-lg">A dynamic storefront wired to a live catalog. Add a product in the console and it lands here — price‑checked, scored, and affiliate‑tagged.</p>
+      <div class="flex gap-8 mt-8 flex-wrap">
+        <div><b id="s1" class="block font-display font-extrabold text-3xl">0</b><span class="mono text-[11px] tracking-widest uppercase text-green">Products live</span></div>
+        <div><b id="s2" class="block font-display font-extrabold text-3xl">0</b><span class="mono text-[11px] tracking-widest uppercase text-green">Avg saved $</span></div>
+        <div><b class="block font-display font-extrabold text-3xl">24/7</b><span class="mono text-[11px] tracking-widest uppercase text-green">Price watch</span></div>
+      </div>
+    </div>
+    <!-- deal of the day (driven by data) -->
+    <article id="dealCard" class="relative bg-card ring-ink rounded-2xl shadow-hard overflow-hidden"></article>
+  </section>
+
+  <!-- TOOLBAR -->
+  <div class="sticky top-16 z-40 bg-paper border-y-2 border-ink">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div id="chips" class="flex gap-2 flex-wrap"></div>
+      <div class="flex gap-2 flex-1 min-w-[220px] justify-end">
+        <input id="search" type="search" placeholder="Search the catalog…" class="ring-ink rounded-lg px-3 py-2 text-sm flex-1 bg-white" />
+        <select id="sort" class="ring-ink rounded-lg px-3 py-2 text-sm bg-white">
+          <option value="pos">Featured</option><option value="rated">Top rated</option>
+          <option value="discount">Biggest deal</option><option value="price-asc">Price ↑</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRID -->
+  <section id="picks" class="max-w-6xl mx-auto px-4 py-12">
+    <div class="flex items-end justify-between mb-6 flex-wrap gap-2">
+      <h2 class="font-display font-extrabold tracking-tight" style="font-size:clamp(1.8rem,3.4vw,2.6rem)">The live shortlist</h2>
+      <p id="resultCount" class="mono text-xs text-inkSoft tracking-wider"></p>
+    </div>
+    <div id="grid" class="grid gap-6" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr))"></div>
+  </section>
+
+  <!-- WISE ADVISOR -->
+  <section id="ai" class="bg-[#eaeeda] border-y-2 border-ink">
+    <div class="max-w-6xl mx-auto px-4 py-14 grid lg:grid-cols-[.9fr_1.1fr] gap-10 items-start">
+      <div>
+        <p class="mono text-xs tracking-[.18em] uppercase text-green flex items-center gap-2"><span class="w-6 h-[2px] bg-hot inline-block"></span> AI-POWERED</p>
+        <h2 class="font-display font-extrabold tracking-tight my-3" style="font-size:clamp(1.8rem,3.4vw,2.6rem)">Meet Wise — your deal hunter</h2>
+        <p class="text-inkSoft">Wise scores every live pick against your request and budget, then hands you the shortlist. It reads the same catalog the console publishes.</p>
+        <div class="flex flex-wrap gap-2 my-5">
+          <button class="suggest chip">Best mic setup under $150</button>
+          <button class="suggest chip">Headphones for mixing</button>
+          <button class="suggest chip">Cheap studio upgrades</button>
+        </div>
+        <p class="mono text-xs text-greenD">▸ Runs in your browser over the live catalog. Wire PA‑API into the backend for auto‑enriched data.</p>
+      </div>
+      <div class="bg-white ring-ink rounded-2xl shadow-hard overflow-hidden flex flex-col">
+        <div class="bg-green text-white px-4 py-3 border-b-2 border-ink flex items-center gap-3">
+          <span class="grid place-items-center w-9 h-9 bg-amber text-ink ring-ink rounded-full font-display font-extrabold">W</span>
+          <div><strong>Wise</strong><small class="block mono text-[11px] opacity-85">● online · scanning live catalog</small></div>
+        </div>
+        <div id="chat" class="p-4 flex flex-col gap-3 overflow-y-auto" style="height:340px;background:repeating-linear-gradient(0deg,transparent 0 27px,rgba(22,33,26,.04) 27px 28px)"></div>
+        <form id="chatForm" class="flex border-t-2 border-ink">
+          <input id="chatInput" class="flex-1 px-4 py-3 text-sm" placeholder='Try "best mic setup under $150"' />
+          <button class="bg-green text-white px-5 font-bold border-l-2 border-ink">Ask →</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- DISCLOSURE / FOOTER -->
+  <footer class="max-w-6xl mx-auto px-4 py-12">
+    <p class="ring-ink rounded-xl bg-white p-4 text-sm text-inkSoft" style="border-style:dashed"><strong class="text-ink">Affiliate Disclosure:</strong> As an Amazon Associate we earn from qualifying purchases, at no extra cost to you. Prices are pulled from the live catalog and verified at time of publishing.</p>
+    <div class="flex justify-between flex-wrap gap-3 mt-5 text-sm text-inkSoft"><span>© 2026 PickWise. All rights reserved.</span><span><a href="review.html" class="text-inkSoft">Reviews</a> · <a href="#" class="text-inkSoft">Privacy</a> · <a href="#" class="text-inkSoft">Contact</a></span></div>
+  </footer>
+</main>
+
+<script>
+"use strict";
+/* 🔑 YOUR RENDER BACKEND URL — change this after deploying Repo B */
+const API = "https://pickwise-api.onrender.com";
+
+const $ = (s) => document.querySelector(s);
+const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (s) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[s]));
+const FLAG = { choice:"Editor's Choice", value:"Best Value", hot:"Hot Deal" };
+const STOP = new Set(["best","the","for","with","under","buy","cheap","good","want","need","please","and","that","this","what","which","how","much","recommend","product","products","something","setup","upgrade"]);
+const discount = (p) => p.was > p.price ? Math.round((1 - p.price / p.was) * 100) : 0;
+const safeUrl = (u) => { try { const x = new URL(u); return /https?:/.test(x.protocol) ? x.href : "#"; } catch { return "#"; } };
+
+let PRODUCTS = [], activeCat = "all";
+
+/* ---------- skeletons ---------- */
+function skeletons(n = 8) {
+  $("#grid").innerHTML = Array.from({ length: n }).map(() => `
+    <div class="bg-card ring-ink rounded-2xl overflow-hidden shadow-hard-sm">
+      <div class="skel" style="height:170px"></div>
+      <div class="p-4 flex flex-col gap-3">
+        <div class="skel h-3 w-16"></div><div class="skel h-4 w-3/4"></div>
+        <div class="skel h-3 w-full"></div><div class="skel h-8 w-1/2"></div>
+      </div></div>`).join("");
+}
+
+/* ---------- card ---------- */
+function cardEl(p) {
+  const d = discount(p);
+  const el = document.createElement("article");
+  el.className = "card bg-card ring-ink rounded-2xl overflow-hidden shadow-hard flex flex-col";
+  el.innerHTML = `
+    <div class="relative overflow-hidden border-b-2 border-ink">
+      <img src="${p.image || "https://picsum.photos/seed/x/600/400"}" alt="${esc(p.title)}" loading="lazy" class="h-44 w-full object-cover transition-transform duration-500" />
+      ${p.flag ? `<span class="mono text-[10px] tracking-wider uppercase px-2 py-1 ring-ink rounded-md absolute top-2 left-2 -rotate-2 ${p.flag === "hot" ? "bg-hot text-white" : p.flag === "value" ? "bg-[#d9f2e3]" : "bg-amber"}">${FLAG[p.flag]}</span>` : ""}
+      ${d ? `<span class="mono text-[11px] bg-ink text-amber px-2 py-1 rounded-md absolute top-2 right-2 rotate-2">−${d}%</span>` : ""}
+    </div>
+    <div class="p-4 flex flex-col gap-2 flex-1">
+      <div class="flex justify-between items-center">
+        <span class="mono text-[10px] tracking-[.16em] uppercase text-green">${esc(p.category)}</span>
+        <span class="mono text-[11px] bg-[#fff3cf] text-[#8a6100] px-2 py-0.5 rounded-md">★ ${(+p.rating).toFixed(1)}</span>
+      </div>
+      <h3 class="font-display font-extrabold text-lg leading-tight">${esc(p.title)}</h3>
+      <p class="text-sm italic text-inkSoft flex-1">"${esc(p.verdict)}"</p>
+      <p class="mono font-bold text-xl">$${(+p.price).toFixed(2)} ${d ? `<s class="text-inkSoft text-sm font-normal">$${(+p.was).toFixed(2)}</s>` : ""}</p>
+      <a class="btn btn-go justify-center text-sm" href="${safeUrl(p.url)}" target="_blank" rel="sponsored nofollow noopener">View Deal →</a>
+    </div>`;
+  return el;
+}
+
+/* ---------- render + filter ---------- */
+function render() {
+  const q = ($("#search").value || "").toLowerCase();
+  let list = PRODUCTS.filter((p) => (activeCat === "all" || p.category === activeCat) &&
+    (!q || (p.title + " " + p.category + " " + p.verdict + " " + (p.tags || []).join(" ")).toLowerCase().includes(q)));
+  const s = $("#sort").value;
+  if (s === "rated")     list = [...list].sort((a, b) => b.rating - a.rating);
+  if (s === "discount")  list = [...list].sort((a, b) => discount(b) - discount(a));
+  if (s === "price-asc") list = [...list].sort((a, b) => a.price - b.price);
+  $("#resultCount").textContent = `SHOWING ${list.length} OF ${PRODUCTS.length} PICKS`;
+  const grid = $("#grid"); grid.innerHTML = "";
+  if (!list.length) { grid.innerHTML = `<p class="mono text-sm text-inkSoft col-span-full py-8">▸ No picks match — try clearing filters.</p>`; return; }
+  list.forEach((p, i) => { const el = cardEl(p); el.style.transitionDelay = Math.min(i, 8) * 50 + "ms"; grid.appendChild(el); });
+  requestAnimationFrame(() => requestAnimationFrame(() => grid.querySelectorAll(".card").forEach((c) => c.classList.add("in"))));
+}
+function buildChips() {
+  const cats = ["all", ...new Set(PRODUCTS.map((p) => p.category))];
+  $("#chips").innerHTML = cats.map((c) => `<button class="chip ${c === activeCat ? "on" : ""}" data-cat="${c}">${c === "all" ? "All picks" : c}</button>`).join("");
+  $("#chips").querySelectorAll(".chip").forEach((b) => b.addEventListener("click", () => { activeCat = b.dataset.cat; buildChips(); render(); }));
+}
+
+/* ---------- deal of the day ---------- */
+function renderDeal() {
+  const p = PRODUCTS.find((x) => x.flag === "hot") || PRODUCTS.find((x) => x.flag === "choice") || PRODUCTS[0];
+  if (!p) { $("#dealCard").innerHTML = ""; return; }
+  const d = discount(p);
+  $("#dealCard").innerHTML = `
+    <span class="absolute -top-3 -right-2 w-20 h-20 grid place-items-center bg-card border-[2.5px] border-dashed border-hot text-hot rounded-full font-display font-extrabold rotate-6 z-10 mono">−${d}%</span>
+    <img src="${p.image}" alt="${esc(p.title)}" class="h-52 w-full object-cover border-b-2 border-ink" />
+    <div class="p-5">
+      <p class="mono text-[11px] tracking-[.16em] text-hot flex items-center gap-2"><span class="light" style="background:#ff4d24"></span> DEAL OF THE DAY</p>
+      <h3 class="font-display font-extrabold text-2xl mt-2">${esc(p.title)}</h3>
+      <p class="mono font-bold text-3xl mt-3">$${(+p.price).toFixed(2)} <s class="text-inkSoft text-lg font-normal">$${(+p.was).toFixed(2)}</s></p>
+      <a class="btn btn-go mt-4" href="${safeUrl(p.url)}" target="_blank" rel="sponsored nofollow noopener">Grab This Deal →</a>
+      <p class="mono text-[11px] text-inkSoft mt-3">Pulled live from the console · verify price on Amazon</p>
+    </div>`;
+}
+
+/* ---------- count-up ---------- */
+function countUp(el, target, dur = 1300) {
+  const t0 = performance.now();
+  (function step(t) { const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3); el.textContent = Math.round(target * e); if (k < 1) requestAnimationFrame(step); })(t0);
+}
+
+/* ---------- Wise advisor over the LIVE catalog ---------- */
+const tokens = (q) => q.toLowerCase().split(/[^a-z0-9+#]+/).filter((w) => w.length > 2 && !STOP.has(w) && !/^\d+$/.test(w));
+function budget(q) { const m = q.match(/(?:under|below|less than|max|around|up to)\s*\$?\s*(\d+(?:\.\d+)?)/i) || q.match(/\$\s*(\d+)/); return m ? parseFloat(m[1]) : null; }
+function recommend(q) {
+  const w = tokens(q), b = budget(q);
+  const scored = PRODUCTS.map((p) => {
+    let s = 0; const hay = (p.title + " " + p.category + " " + p.verdict + " " + (p.tags || []).join(" ")).toLowerCase();
+    w.forEach((x) => { if (p.title.toLowerCase().includes(x)) s += 5; else if ((p.tags || []).some((t) => t.includes(x))) s += 4; else if (p.category.includes(x)) s += 3; else if (hay.includes(x)) s += 2; });
+    s += p.rating; if (b) s += p.price <= b ? 6 : p.price <= b * 1.15 ? 2 : -8;
+    return { p, s };
+  }).sort((a, b) => b.s - a.s);
+  let top = scored.filter((x) => x.s > 2).slice(0, 3).map((x) => x.p);
+  if (!top.length) top = [...PRODUCTS].sort((a, b) => b.rating - a.rating).slice(0, 3);
+  return { top, b, w };
+}
+function addMsg(t, who) { const m = document.createElement("div"); m.className = "msg " + who; m.textContent = t; $("#chat").appendChild(m); $("#chat").scrollTop = 9e9; return m; }
+function aiReply(q) {
+  const { top, b, w } = recommend(q); const wrap = document.createElement("div"); wrap.className = "msg ai";
+  const intro = document.createElement("p");
+  intro.textContent = b ? `Budget spotted: $${b}. These score highest at or under it:` : w.length ? `Matching "${w.slice(0, 2).join('", ')}" against ${PRODUCTS.length} live picks:` : `Here are the top live picks right now:`;
+  wrap.appendChild(intro);
+  top.forEach((p, i) => { const d = document.createElement("div"); d.className = "mt-2 p-3 bg-paper ring-ink rounded-lg"; d.innerHTML = `<strong class="text-sm">${i + 1}. ${esc(p.title)}</strong><div class="mono text-[11px] text-inkSoft">$${(+p.price).toFixed(2)} · ★ ${p.rating}</div><a class="text-greenD font-bold text-sm" href="${safeUrl(p.url)}" target="_blank" rel="sponsored nofollow noopener">View deal →</a>`; wrap.appendChild(d); });
+  return wrap;
+}
+$("#chatForm").addEventListener("submit", (e) => {
+  e.preventDefault(); const q = $("#chatInput").value.trim(); if (!q) return;
+  addMsg(q, "user"); $("#chatInput").value = "";
+  const t = document.createElement("div"); t.className = "msg ai typing"; t.innerHTML = "<i></i><i></i><i></i>"; $("#chat").appendChild(t); $("#chat").scrollTop = 9e9;
+  setTimeout(() => { t.remove(); $("#chat").appendChild(aiReply(q)); $("#chat").scrollTop = 9e9; }, 700);
+});
+document.querySelectorAll(".suggest").forEach((b) => b.addEventListener("click", () => { $("#chatInput").value = b.textContent; $("#chatForm").requestSubmit(); }));
+
+$("#search").addEventListener("input", render);
+$("#sort").addEventListener("change", render);
+
+/* ---------- boot: fetch the live catalog ---------- */
+(async function boot() {
+  skeletons();
+  addMsg("Hey — I'm Wise. Tell me what you're building (and your budget) and I'll pull from the live catalog.", "ai");
+  try {
+    const r = await fetch(API + "/api/products");
+    if (!r.ok) throw new Error("api " + r.status);
+    PRODUCTS = await r.json();
+  } catch (e) {
+    $("#grid").innerHTML = `<p class="mono text-sm text-inkSoft col-span-full py-8">⚠ Couldn't reach the catalog at ${API}. Is the Render backend deployed and the API URL set? (Falling back to empty.)</p>`;
+    return;
+  }
+  $("#liveCount").textContent = PRODUCTS.length;
+  $("#tk1").textContent = $("#tk2").textContent = PRODUCTS.length + " picks live now";
+  renderDeal(); buildChips(); render();
+  const avg = Math.round(PRODUCTS.reduce((a, p) => a + (p.was - p.price), 0) / Math.max(1, PRODUCTS.length));
+  countUp($("#s1"), PRODUCTS.length); countUp($("#s2"), avg);
+  new IntersectionObserver((es, io) => es.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } }), { threshold: .12 }).observe($("#ai"));
+})();
+</script>
+</body>
+</html>
