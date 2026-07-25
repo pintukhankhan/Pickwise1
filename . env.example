@@ -1,0 +1,23 @@
+# --- Server ---
+PORT=3000
+NODE_ENV=production
+
+# --- Admin console (REQUIRED to use the panel) ---
+ADMIN_PASSWORD=make-this-long-and-unique
+SESSION_SECRET=another-long-random-string-xyz
+
+# --- Your Amazon associate tag ---
+AMAZON_TAG=shoyebkhan192-20
+
+# --- GitHub-as-database (REQUIRED for persistence on Render) ---
+GITHUB_TOKEN=ghp_your_personal_access_token
+GITHUB_REPO=pintukhankhan/pickwise-api
+GITHUB_BRANCH=main
+
+# --- Public storefront origin (CORS) ---
+STOREFRONT_URL=https://pintukhankhan.github.io
+
+# --- OPTIONAL: Amazon PA-API (auto-fetch). Leave blank = manual entry only. ---
+PAAPI_ACCESS_KEY=
+PAAPI_SECRET_KEY=
+PAAPI_PARTNER_TAG=shoyebkhan192-20
